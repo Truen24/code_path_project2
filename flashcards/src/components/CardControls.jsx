@@ -1,12 +1,18 @@
-import { useState } from "react";
-
-const CardControls = ({ cards, setCurrentCard }) => {
+const CardControls = ({ cards, currentIndex, setCurrentIndex }) => {
     const handleNextCard = () => {
-        const randomIndex = Math.floor(Math.random() * cards.length);
-        setCurrentCard(cards[randomIndex]);
+        setCurrentIndex((currentIndex + 1) % cards.length);
     };
 
-    return <button onClick={handleNextCard}>Next Card</button>;
+    const handlePrevCard = () => {
+        setCurrentIndex((currentIndex - 1 + cards.length) % cards.length);
+    };
+
+    return (
+        <div className="controls">
+            <button onClick={handlePrevCard}>⬅ Back</button>
+            <button onClick={handleNextCard}>Next ➡</button>
+        </div>
+    );
 };
 
 export default CardControls;

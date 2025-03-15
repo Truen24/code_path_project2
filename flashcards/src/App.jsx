@@ -17,14 +17,32 @@ const flashcardsData = [
 ];
 
 function App() {
-    const [currentCard, setCurrentCard] = useState(flashcardsData[0]);
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [resetTrigger, setResetTrigger] = useState(0); // Used to trigger reset
+
+    const checkAnswer = (userInput, correctAnswer) => {
+        return userInput.trim().toLowerCase() === correctAnswer.toLowerCase();
+    };
+
+    const handleCardChange = (newIndex) => {
+        setCurrentIndex(newIndex);
+        setResetTrigger((prev) => prev + 1); // Update to trigger reset in Flashcard
+    };
 
     return (
         <div className="app">
             <h1>Charger Football Knowledge Flash Cards</h1>
-            <p>Total Number of Cards: 10</p>
-            <Flashcard card={currentCard} />
-            <CardControls cards={flashcardsData} setCurrentCard={setCurrentCard} />
+            <p>Total Number of Cards: {flashcardsData.length}</p>
+            <Flashcard 
+                card={flashcardsData[currentIndex]} 
+                checkAnswer={checkAnswer} 
+                resetTrigger={resetTrigger} 
+            />
+            <CardControls 
+                cards={flashcardsData} 
+                currentIndex={currentIndex} 
+                setCurrentIndex={handleCardChange} 
+            />
         </div>
     );
 }
